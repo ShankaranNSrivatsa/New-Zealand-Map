@@ -28,8 +28,8 @@ import java.awt.event.KeyEvent;
 public class Screen extends JPanel implements KeyListener{
     private MyHashTable<Location, GridObject> myGridTable;
     private Tourist t;
-    private boolean upPressed,downPressed,leftPressed,rightPressed,skytree,springs;
-    private BufferedImage skytower,springimage;
+    private boolean upPressed,downPressed,leftPressed,rightPressed,skytree,springs,mountCook;
+    private BufferedImage skytower,springimage,mountCookImage;
     public Screen(){
         this.setLayout(null);
         myGridTable = new MyHashTable<Location, GridObject>();
@@ -41,6 +41,7 @@ public class Screen extends JPanel implements KeyListener{
         rightPressed=false;
         skytree=false;
         springs=false;
+        mountCook=false;
         try {
 			Scanner scan = new Scanner(new FileReader("MapExportFile.txt"));			
 			
@@ -91,6 +92,7 @@ public class Screen extends JPanel implements KeyListener{
         try {
             skytower = ImageIO.read(new File("images/skytower.jpg"));
             springimage = ImageIO.read(new File("images/springs.jpg"));
+            mountCookImage = ImageIO.read(new File("images/mountcook.jpg"));
         } catch (IOException e) {
             System.out.println("IMAGEFAIL"+e.getMessage());
         }
@@ -106,8 +108,29 @@ public class Screen extends JPanel implements KeyListener{
             myGridTable.remove(new Location(37,26),myGridTable.get(new Location(37,26)).get(1));
             myGridTable.put(new Location(37,26),new GridObject("springs"));
         }else{
-            myGridTable.put(new Location(37,25),new GridObject("springs"));
+            myGridTable.put(new Location(37,26),new GridObject("springs"));
         }
+        if(myGridTable.get(new Location(17,75)).size()>1){
+            myGridTable.remove(new Location(17,75),myGridTable.get(new Location(17,75)).get(1));
+            myGridTable.put(new Location(17,75),new GridObject("mountcook"));
+        }else{
+            myGridTable.put(new Location(17,75),new GridObject("mountcook"));
+        }
+        myGridTable.remove(new Location(31,57),myGridTable.get(new Location(31,57)).get(0));
+        myGridTable.put(new Location(31,57),new GridObject("road"));
+        myGridTable.remove(new Location(30,57),myGridTable.get(new Location(30,57)).get(0));
+        myGridTable.put(new Location(30,57),new GridObject("road"));
+        myGridTable.remove(new Location(30,58),myGridTable.get(new Location(30,58)).get(0));
+        myGridTable.put(new Location(30,58),new GridObject("road"));
+        myGridTable.remove(new Location(29,58),myGridTable.get(new Location(29,58)).get(0));
+        myGridTable.put(new Location(29,58),new GridObject("road"));
+        myGridTable.remove(new Location(29,59),myGridTable.get(new Location(29,59)).get(0));
+        myGridTable.put(new Location(29,59),new GridObject("road"));
+
+
+
+
+
     }
     @Override
     public Dimension getPreferredSize() {
@@ -156,6 +179,24 @@ public class Screen extends JPanel implements KeyListener{
             g.drawString("Visitors can enjoy traditional performances, explore the Maori ", 715, 485);
             g.drawString("art and crafts, and learn about the significance of Te Puia to ", 715, 500);
             g.drawString("the indigenous Maori people.", 715, 515);
+        }
+        if(mountCook){
+            g.drawImage(mountCookImage,700,0,500,350,null);
+            g.setFont(new Font("default", Font.BOLD, 30));
+            g.setColor(Color.BLACK);
+            g.drawString("Mount Cook", 850, 375);
+            g.setFont(new Font("default", Font.BOLD, 15));
+            g.drawString("Twizel", 920, 395);
+            g.setFont(new Font("default", Font.PLAIN, 14));
+            g.drawString("Mount Cook, or Aoraki, is the highest mountain in New Zealand, ", 715, 410);
+            g.drawString("standing at 3,724 meters (12,218 feet). It is located in the ", 715, 425);
+            g.drawString("Southern Alps, within the Aoraki / Mount Cook National Park.", 715, 440);
+            g.drawString("The mountain is a popular destination for climbers, hikers, and ", 715, 455);
+            g.drawString("tourists, offering breathtaking views and a variety of outdoor ", 715, 470);
+            g.drawString("activities. Visitors can explore the Hooker Valley Track or ", 715, 485);
+            g.drawString("take scenic flights to see glaciers, alpine lakes, and rugged ", 715, 500);
+            g.drawString("mountain landscapes.", 715, 515);
+
         }
     }
     public void keyTyped(KeyEvent e) {
@@ -283,6 +324,49 @@ public class Screen extends JPanel implements KeyListener{
         
     }else{
         springs=false;
+        //System.out.println("BYE");
+    }
+
+    if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+2),"mountcook")){
+            mountCook=true;
+            //System.out.println("A");
+            //directly left of sky tower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+2),"mountcook")){
+            mountCook=true;
+            //System.out.println("B");
+            //directly right of skytower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+1),"mountcook")){
+            mountCook=true;
+            //System.out.println("C");
+            //directly down of skytower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+3),"mountcook")){
+            mountCook=true;
+            //System.out.println("D");
+            //directly up of skytower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+3),"mountcook")){
+            mountCook=true;
+            //top right diagonal of skytower
+           
+    }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+3),"mountcook")){
+            mountCook=true;
+            //top left diagonal of skytower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+1),"mountcook")){
+            mountCook=true;
+            //bottom left diagonal of skytower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+1),"mountcook")){
+        
+            mountCook=true;
+            //bottom right diagonal of skytower
+        
+        
+    }else{
+        mountCook=false;
         //System.out.println("BYE");
     }
         repaint();
