@@ -28,8 +28,8 @@ import java.awt.event.KeyEvent;
 public class Screen extends JPanel implements KeyListener{
     private MyHashTable<Location, GridObject> myGridTable;
     private Tourist t;
-    private boolean upPressed,downPressed,leftPressed,rightPressed,skytree,springs,mountCook;
-    private BufferedImage skytower,springimage,mountCookImage;
+    private boolean upPressed,downPressed,leftPressed,rightPressed,skytree,springs,mountCook,milford;
+    private BufferedImage skytower,springimage,mountCookImage,milfordImage;
     public Screen(){
         this.setLayout(null);
         myGridTable = new MyHashTable<Location, GridObject>();
@@ -42,6 +42,7 @@ public class Screen extends JPanel implements KeyListener{
         skytree=false;
         springs=false;
         mountCook=false;
+        milford=false;
         try {
 			Scanner scan = new Scanner(new FileReader("MapExportFile.txt"));			
 			
@@ -93,11 +94,12 @@ public class Screen extends JPanel implements KeyListener{
             skytower = ImageIO.read(new File("images/skytower.jpg"));
             springimage = ImageIO.read(new File("images/springs.jpg"));
             mountCookImage = ImageIO.read(new File("images/mountcook.jpg"));
+            milfordImage = ImageIO.read(new File("images/milford.jpeg"));
         } catch (IOException e) {
             System.out.println("IMAGEFAIL"+e.getMessage());
         }
         
-
+        //Manual Landmark placement
         if(myGridTable.get(new Location(28,14)).size()>1){
             myGridTable.remove(new Location(28,14),myGridTable.get(new Location(28,14)).get(1));
             myGridTable.put(new Location(28,14),new GridObject("skytree"));
@@ -116,6 +118,13 @@ public class Screen extends JPanel implements KeyListener{
         }else{
             myGridTable.put(new Location(17,75),new GridObject("mountcook"));
         }
+        if(myGridTable.get(new Location(10,82)).size()>1){
+            myGridTable.remove(new Location(10,82),myGridTable.get(new Location(10,82)).get(1));
+            myGridTable.put(new Location(10,82),new GridObject("milford"));
+        }else{
+            myGridTable.put(new Location(10,82),new GridObject("milford"));
+        }
+        //Manual Creation of road bridge between islands
         myGridTable.remove(new Location(31,57),myGridTable.get(new Location(31,57)).get(0));
         myGridTable.put(new Location(31,57),new GridObject("road"));
         myGridTable.remove(new Location(30,57),myGridTable.get(new Location(30,57)).get(0));
@@ -198,6 +207,24 @@ public class Screen extends JPanel implements KeyListener{
             g.drawString("mountain landscapes.", 715, 515);
 
         }
+        if(milford){
+            g.drawImage(milfordImage,700,0,500,350,null);
+            g.setFont(new Font("default", Font.BOLD, 30));
+            g.setColor(Color.BLACK);
+            g.drawString("Milford Sound", 850, 375);
+            g.setFont(new Font("default", Font.BOLD, 15));
+            g.drawString("Fiordland", 920, 395);
+            g.setFont(new Font("default", Font.PLAIN, 14));
+            g.drawString("Milford Sound is a stunning fjord located in Fiordland National ", 715, 410);
+            g.drawString("Park on the South Island of New Zealand. It is known for its ", 715, 425);
+            g.drawString("towering cliffs, lush rainforests, and dramatic waterfalls, ", 715, 440);
+            g.drawString("including the iconic Stirling Falls. Milford Sound is often ", 715, 455);
+            g.drawString("described as one of the most beautiful places in the world, ", 715, 470);
+            g.drawString("drawing visitors from all over for scenic cruises, kayaking, ", 715, 485);
+            g.drawString("and hikes. It is surrounded by breathtaking mountain and ", 715, 500);
+            g.drawString("ocean views, making it a must-see destination in New Zealand.", 715, 515);
+
+        }
     }
     public void keyTyped(KeyEvent e) {
     }
@@ -239,137 +266,175 @@ public class Screen extends JPanel implements KeyListener{
             }
             rightPressed=true;
         }
-    if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+2),"skytree")){
+        if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+2),"skytree")){
             skytree=true;
             //System.out.println("A");
             //directly left of sky tower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+2),"skytree")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+2),"skytree")){
             skytree=true;
             //System.out.println("B");
             //directly right of skytower
         
-    }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+1),"skytree")){
+        }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+1),"skytree")){
             skytree=true;
             //System.out.println("C");
             //directly down of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+3),"skytree")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+3),"skytree")){
             skytree=true;
             //System.out.println("D");
             //directly up of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+3),"skytree")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+3),"skytree")){
             skytree=true;
             //top right diagonal of skytower
-           
-    }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+3),"skytree")){
-        
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+3),"skytree")){
             skytree=true;
             //top left diagonal of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+1),"skytree")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+1),"skytree")){
             skytree=true;
             //bottom left diagonal of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+1),"skytree")){
-        
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+1),"skytree")){
             skytree=true;
             //bottom right diagonal of skytower
-        
-        
-    }else{
-        skytree=false;
-        //System.out.println("BYE");
-    }
+            
+            
+        }else{
+            skytree=false;
+            //System.out.println("BYE");
+        }
 
-    
-    if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+2),"springs")){
+        
+        if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+2),"springs")){
             springs=true;
             //System.out.println("A");
             //directly left of sky tower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+2),"springs")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+2),"springs")){
             springs=true;
             //System.out.println("B");
             //directly right of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+1),"springs")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+1),"springs")){
             springs=true;
             //System.out.println("C");
             //directly down of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+3),"springs")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+3),"springs")){
             springs=true;
             //System.out.println("D");
             //directly up of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+3),"springs")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+3),"springs")){
             springs=true;
             //top right diagonal of skytower
-           
-    }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+3),"springs")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+3),"springs")){
             springs=true;
             //top left diagonal of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+1),"springs")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+1),"springs")){
             springs=true;
             //bottom left diagonal of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+1),"springs")){
-        
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+1),"springs")){     
             springs=true;
             //bottom right diagonal of skytower
-        
-        
-    }else{
+            
+            
+        }else{
         springs=false;
         //System.out.println("BYE");
-    }
+        }
 
-    if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+2),"mountcook")){
+        if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+2),"mountcook")){
             mountCook=true;
             //System.out.println("A");
             //directly left of sky tower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+2),"mountcook")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+2),"mountcook")){
             mountCook=true;
             //System.out.println("B");
             //directly right of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+1),"mountcook")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+1),"mountcook")){
             mountCook=true;
             //System.out.println("C");
             //directly down of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+3),"mountcook")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+3),"mountcook")){
             mountCook=true;
             //System.out.println("D");
             //directly up of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+3),"mountcook")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+3),"mountcook")){
             mountCook=true;
             //top right diagonal of skytower
-           
-    }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+3),"mountcook")){
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+3),"mountcook")){
             mountCook=true;
             //top left diagonal of skytower
         
-    }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+1),"mountcook")){
+        }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+1),"mountcook")){
             mountCook=true;
             //bottom left diagonal of skytower
-        
-    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+1),"mountcook")){
-        
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+1),"mountcook")){
             mountCook=true;
             //bottom right diagonal of skytower
-        
-        
-    }else{
-        mountCook=false;
-        //System.out.println("BYE");
-    }
-        repaint();
+            
+            
+        }else{
+            mountCook=false;
+            //System.out.println("BYE");
+        }
+
+        if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+2),"milford")){
+            milford=true;
+            //System.out.println("A");
+            //directly left of sky tower
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+2),"milford")){
+            milford=true;
+            //System.out.println("B");
+            //directly right of skytower
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+1),"milford")){
+            milford=true;
+            //System.out.println("C");
+            //directly down of skytower
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+3),"milford")){
+            milford=true;
+            //System.out.println("D");
+            //directly up of skytower
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+3),"milford")){
+            milford=true;
+            //top right diagonal of skytower
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+3),"milford")){
+            milford=true;
+            //top left diagonal of skytower
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+1),"milford")){
+            milford=true;
+            //bottom left diagonal of skytower
+            
+        }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+1),"milford")){
+            milford=true;
+            //bottom right diagonal of skytower
+            
+            
+        }else{
+            milford=false;
+            //System.out.println("BYE");
+        }
+            repaint();
     }
 
     

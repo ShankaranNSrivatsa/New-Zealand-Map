@@ -46,6 +46,9 @@ public class GridObject{
         }else if(name.equals("mountcook")){
             g.setColor(new Color(252,186,3));
             g.fillOval(x+1,y+1,5,5);
+        }else if(name.equals("milford")){
+            g.setColor(new Color(252,186,3));
+            g.fillOval(x+1,y+1,5,5);
         }
         
     }
