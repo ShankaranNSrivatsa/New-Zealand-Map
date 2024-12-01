@@ -28,8 +28,8 @@ import java.awt.event.KeyEvent;
 public class Screen extends JPanel implements KeyListener{
     private MyHashTable<Location, GridObject> myGridTable;
     private Tourist t;
-    private boolean upPressed,downPressed,leftPressed,rightPressed,skytree;
-    private BufferedImage skytower;
+    private boolean upPressed,downPressed,leftPressed,rightPressed,skytree,springs;
+    private BufferedImage skytower,springimage;
     public Screen(){
         this.setLayout(null);
         myGridTable = new MyHashTable<Location, GridObject>();
@@ -40,6 +40,7 @@ public class Screen extends JPanel implements KeyListener{
         leftPressed=false;
         rightPressed=false;
         skytree=false;
+        springs=false;
         try {
 			Scanner scan = new Scanner(new FileReader("MapExportFile.txt"));			
 			
@@ -89,6 +90,7 @@ public class Screen extends JPanel implements KeyListener{
         }
         try {
             skytower = ImageIO.read(new File("images/skytower.jpg"));
+            springimage = ImageIO.read(new File("images/springs.jpg"));
         } catch (IOException e) {
             System.out.println("IMAGEFAIL"+e.getMessage());
         }
@@ -99,6 +101,12 @@ public class Screen extends JPanel implements KeyListener{
             myGridTable.put(new Location(28,14),new GridObject("skytree"));
         }else{
             myGridTable.put(new Location(28,14),new GridObject("skytree"));
+        }
+        if(myGridTable.get(new Location(37,26)).size()>1){
+            myGridTable.remove(new Location(37,26),myGridTable.get(new Location(37,26)).get(1));
+            myGridTable.put(new Location(37,26),new GridObject("springs"));
+        }else{
+            myGridTable.put(new Location(37,25),new GridObject("springs"));
         }
     }
     @Override
@@ -131,11 +139,23 @@ public class Screen extends JPanel implements KeyListener{
             g.drawString("second tallest freestanding structure in the Southern Hemisphere.",715,455);
             g.drawString("The tower contains three observation decks allowing the public to",715,470);
             g.drawString("enjoy an incredible view of the largest city in New Zealand.",715,485);
-
-
-
-            
-
+        }
+        if(springs){
+            g.drawImage(springimage,700,0,500,350,null);
+            g.setFont(new Font("default", Font.BOLD, 30));
+            g.setColor(Color.BLACK);
+            g.drawString("Te Puia",890,375);
+            g.setFont(new Font("default", Font.BOLD, 15));
+            g.drawString("Rotorua",920,395);
+            g.setFont(new Font("default", Font.PLAIN, 14));
+            g.drawString("Te Puia is a cultural complex and geothermal park in Rotorua, ", 715, 410);
+            g.drawString("New Zealand. It is home to the famous Pohutu Geyser, which ", 715, 425);
+            g.drawString("erupts up to 30 meters high, making it the largest active geyser ", 715, 440);
+            g.drawString("in the Southern Hemisphere. The park also features boiling mud ", 715, 455);
+            g.drawString("pools, hot springs, and an extensive Maori cultural experience.", 715, 470);
+            g.drawString("Visitors can enjoy traditional performances, explore the Maori ", 715, 485);
+            g.drawString("art and crafts, and learn about the significance of Te Puia to ", 715, 500);
+            g.drawString("the indigenous Maori people.", 715, 515);
         }
     }
     public void keyTyped(KeyEvent e) {
@@ -219,6 +239,50 @@ public class Screen extends JPanel implements KeyListener{
         
     }else{
         skytree=false;
+        //System.out.println("BYE");
+    }
+
+    
+    if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+2),"springs")){
+            springs=true;
+            //System.out.println("A");
+            //directly left of sky tower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+2),"springs")){
+            springs=true;
+            //System.out.println("B");
+            //directly right of skytower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+1),"springs")){
+            springs=true;
+            //System.out.println("C");
+            //directly down of skytower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+3),"springs")){
+            springs=true;
+            //System.out.println("D");
+            //directly up of skytower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+3),"springs")){
+            springs=true;
+            //top right diagonal of skytower
+           
+    }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+3),"springs")){
+            springs=true;
+            //top left diagonal of skytower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)+2),((int)t.getY()/7)+1),"springs")){
+            springs=true;
+            //bottom left diagonal of skytower
+        
+    }else if(checkForObject(new Location((((int)t.getX()/7)),((int)t.getY()/7)+1),"springs")){
+        
+            springs=true;
+            //bottom right diagonal of skytower
+        
+        
+    }else{
+        springs=false;
         //System.out.println("BYE");
     }
         repaint();
