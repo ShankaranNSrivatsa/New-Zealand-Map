@@ -25,11 +25,12 @@ import java.io.FileNotFoundException;
 import java.io.*;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-public class Screen extends JPanel implements KeyListener{
+public class Screen extends JPanel implements KeyListener,ActionListener{
     private MyHashTable<Location, GridObject> myGridTable;
     private Tourist t;
     private boolean upPressed,downPressed,leftPressed,rightPressed,skytree,springs,mountCook,milford;
     private BufferedImage skytower,springimage,mountCookImage,milfordImage;
+    private JButton save;
     public Screen(){
         this.setLayout(null);
         myGridTable = new MyHashTable<Location, GridObject>();
@@ -43,11 +44,18 @@ public class Screen extends JPanel implements KeyListener{
         springs=false;
         mountCook=false;
         milford=false;
+        
+        save = new JButton();
+        save.setBounds(750,600,150,25);
+        save.setText("Save");
+        this.add(save);
+        save.addActionListener(this);
         try {
 			Scanner scan = new Scanner(new FileReader("MapExportFile.txt"));			
 			
 			System.out.println();
 			t= new Tourist(203,203);
+            loadTouristPosition();
 			//reads one line at a time
 			int col=0;
             while (scan.hasNextLine()){
@@ -230,7 +238,7 @@ public class Screen extends JPanel implements KeyListener{
     }
 
     public void keyPressed(KeyEvent e) {
-        //System.out.println("YO");
+        System.out.println(t.getY());
         if(e.getKeyCode()==KeyEvent.VK_UP&&!upPressed){
             DLList<GridObject> upGrid = myGridTable.get(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+1));
             if(!upGrid.get(0).getName().equals("water")){
@@ -463,5 +471,31 @@ public class Screen extends JPanel implements KeyListener{
         }
         return false;
     }
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource()==save){
+            saveTouristPosition();
+        }
+    }
+
+    public void saveTouristPosition() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("touristPosition.ser"))) {
+            oos.writeObject(t);  
+            System.out.println("Tourist position saved.");
+            requestFocusInWindow();
+        } catch (IOException e) {
+            System.out.println("Default Position");
+        }
+    }
+
+    public void loadTouristPosition() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("touristPosition.ser"))) {
+            t = (Tourist) ois.readObject();  
+            t.setImage("images/tourist.png");
+            System.out.println("Tourist position loaded.");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

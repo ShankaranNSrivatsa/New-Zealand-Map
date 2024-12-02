@@ -3,11 +3,12 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class Tourist {
+public class Tourist implements Serializable {
     private int x;
     private int y;
-    private BufferedImage img;
+    private transient BufferedImage img;
 
     public Tourist(int x, int y) {
         this.x = x;
@@ -35,6 +36,13 @@ public class Tourist {
     }
     public void moveDown(){
         y+=7;
+    }
+    public void setImage(String filepath){
+        try {
+            img = ImageIO.read(new File("images/traveler.png"));
+        } catch (IOException e) {
+            System.out.println("IMAGEFAIL"+e.getMessage());
+        }
     }
 
     public void drawMe(Graphics g) {
