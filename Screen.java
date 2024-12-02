@@ -28,9 +28,11 @@ import java.awt.event.KeyEvent;
 public class Screen extends JPanel implements KeyListener,ActionListener{
     private MyHashTable<Location, GridObject> myGridTable;
     private Tourist t;
+    private Thread boatThread;
     private boolean upPressed,downPressed,leftPressed,rightPressed,skytree,springs,mountCook,milford;
     private BufferedImage skytower,springimage,mountCookImage,milfordImage;
     private JButton save;
+    private Boat b1;
     public Screen(){
         this.setLayout(null);
         myGridTable = new MyHashTable<Location, GridObject>();
@@ -45,6 +47,9 @@ public class Screen extends JPanel implements KeyListener,ActionListener{
         mountCook=false;
         milford=false;
         
+        b1=new Boat(140,140);
+        boatThread = new Thread(b1);
+        boatThread.start();
         save = new JButton();
         save.setBounds(750,600,150,25);
         save.setText("Save");
@@ -165,6 +170,7 @@ public class Screen extends JPanel implements KeyListener,ActionListener{
             
         }
         t.drawMe(g);
+        b1.drawMe(g);
         if(skytree){
             g.drawImage(skytower,700,0,500,350,null);
             g.setFont(new Font("default", Font.BOLD, 30));
@@ -238,7 +244,7 @@ public class Screen extends JPanel implements KeyListener,ActionListener{
     }
 
     public void keyPressed(KeyEvent e) {
-        System.out.println(t.getY());
+        //System.out.println(t.getY());
         if(e.getKeyCode()==KeyEvent.VK_UP&&!upPressed){
             DLList<GridObject> upGrid = myGridTable.get(new Location((((int)t.getX()/7)+1),((int)t.getY()/7)+1));
             if(!upGrid.get(0).getName().equals("water")){
