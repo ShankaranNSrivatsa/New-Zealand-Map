@@ -47,10 +47,10 @@ public class Screen extends JPanel implements KeyListener,ActionListener{
         springs=false;
         mountCook=false;
         milford=false;
-        animation = new Animate(this);
         b1=new Boat(140,140);
         boatThread = new Thread(b1);
         boatThread.start();
+        animation = new Animate(this,b1);
         animateThread = new Thread(animation);
         animateThread.start();
         save = new JButton();
@@ -156,6 +156,9 @@ public class Screen extends JPanel implements KeyListener,ActionListener{
 
 
 
+    }
+    public MyHashTable<Location,GridObject> getMap(){
+        return myGridTable;
     }
     @Override
     public Dimension getPreferredSize() {

@@ -15,6 +15,7 @@ public class Boat implements Serializable,Runnable{
     public Boat(int x,int y){
         this.x=x;
         this.y=y;
+        direction=180;
         try {
             img = ImageIO.read(new File("images/boat.png"));
         } catch (IOException e) {
@@ -75,7 +76,7 @@ public class Boat implements Serializable,Runnable{
                 if(Math.random()<0.1){
                     randomizeDirection();
                 }
-                Thread.sleep(100);
+                Thread.sleep(1000);
             }catch(Exception e){
                 System.out.println(e);
             }
