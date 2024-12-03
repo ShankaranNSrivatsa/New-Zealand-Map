@@ -56,7 +56,7 @@ public class Boat implements Serializable,Runnable{
     }
     public void drawMe(Graphics g){
         g.drawImage(img,x,y,7,7,null);
-        System.out.println("BOAT DRAWN");
+        //System.out.println("BOAT DRAWN");
 
     }
 
@@ -75,7 +75,7 @@ public class Boat implements Serializable,Runnable{
                 if(Math.random()<0.1){
                     randomizeDirection();
                 }
-                Thread.sleep(10);
+                Thread.sleep(100);
             }catch(Exception e){
                 System.out.println(e);
             }

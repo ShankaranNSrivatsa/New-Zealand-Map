@@ -28,11 +28,12 @@ import java.awt.event.KeyEvent;
 public class Screen extends JPanel implements KeyListener,ActionListener{
     private MyHashTable<Location, GridObject> myGridTable;
     private Tourist t;
-    private Thread boatThread;
+    private Thread boatThread,animateThread;
     private boolean upPressed,downPressed,leftPressed,rightPressed,skytree,springs,mountCook,milford;
     private BufferedImage skytower,springimage,mountCookImage,milfordImage;
     private JButton save;
     private Boat b1;
+    private Animate animation;
     public Screen(){
         this.setLayout(null);
         myGridTable = new MyHashTable<Location, GridObject>();
@@ -46,10 +47,12 @@ public class Screen extends JPanel implements KeyListener,ActionListener{
         springs=false;
         mountCook=false;
         milford=false;
-        
+        animation = new Animate(this);
         b1=new Boat(140,140);
         boatThread = new Thread(b1);
         boatThread.start();
+        animateThread = new Thread(animation);
+        animateThread.start();
         save = new JButton();
         save.setBounds(750,600,150,25);
         save.setText("Save");
@@ -502,6 +505,7 @@ public class Screen extends JPanel implements KeyListener,ActionListener{
             e.printStackTrace();
         }
     }
+    
 
 
 }
