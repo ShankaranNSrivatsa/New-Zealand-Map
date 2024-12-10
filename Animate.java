@@ -3,12 +3,14 @@ public class Animate implements Runnable {
     private Screen sc;
     private Boat b1;
     private Animal a1;
+    private Car c1;
     private MyHashTable<Location, GridObject> myGridTable;
 
-    public Animate(Screen sc, Boat b1, Animal a1) {
+    public Animate(Screen sc, Boat b1, Animal a1,Car c1) {
         this.sc = sc;
         this.b1 = b1;
         this.a1 = a1;
+        this.c1=c1;
         myGridTable = sc.getMap();
     }
 
@@ -74,6 +76,48 @@ public class Animate implements Runnable {
             } else if (a1.getDirection() == 270) {
                 if (!myGridTable.get(new Location((((int) a1.getX() / 7)), ((int) a1.getY() / 7) + 1)).get(0).getName().equals("grass")||myGridTable.get(new Location((((int) a1.getX() / 7)), ((int) a1.getY() / 7) + 1)).size()>1) {
                     a1.setDirection(90);
+                    //System.out.println("Down hit");
+                }
+            }
+            if (c1.getDirection() == 0) {
+                if (!myGridTable.get(new Location((((int) c1.getX() / 7)-1), ((int) c1.getY() / 7))).get(0).getName().equals("road")) {
+                    if(myGridTable.get(new Location((((int) c1.getX() / 7)), ((int) c1.getY() / 7)-1)).get(0).getName().equals("road")){
+                        c1.setDirection((270));
+                    }
+                    else if(myGridTable.get(new Location((((int) c1.getX() / 7) + 1), ((int) c1.getY() / 7))).get(0).getName().equals("road")){
+                        c1.setDirection(90);
+                    }
+                    //System.out.println("Left Hit");
+                }
+            } else if (c1.getDirection() == 90) {
+                if (!myGridTable.get(new Location((((int) c1.getX() / 7)), ((int) c1.getY() / 7)-1)).get(0).getName().equals("road")) {
+                    if(myGridTable.get(new Location((((int) c1.getX() / 7) + 1), ((int) c1.getY() / 7))).get(0).getName().equals("road")){
+                        c1.setDirection(180);
+                    }else if(myGridTable.get(new Location((((int) c1.getX() / 7)-1), ((int) c1.getY() / 7))).get(0).getName().equals("road")){
+                        c1.setDirection(0);
+                    }
+                    
+                    //System.out.println("Up Hit");
+
+                }
+            } else if (c1.getDirection() == 180) {
+                if (!myGridTable.get(new Location((((int) c1.getX() / 7) + 1), ((int) c1.getY() / 7))).get(0).getName().equals("road")) {
+                    if(myGridTable.get(new Location((((int) c1.getX() / 7)), ((int) c1.getY() / 7)-1)).get(0).getName().equals("road")){
+                        c1.setDirection(90);
+                    }else{
+                        c1.setDirection(270);
+                    }
+                    //System.out.println("Right Hit");
+
+                }
+            } else if (c1.getDirection() == 270) {
+                if (!myGridTable.get(new Location((((int) c1.getX() / 7)), ((int) c1.getY() / 7) + 1)).get(0).getName().equals("road")) {
+                    if(myGridTable.get(new Location((((int) c1.getX() / 7) + 1), ((int) c1.getY() / 7))).get(0).getName().equals("road")){
+                        c1.setDirection(180);
+                    }else{
+                        c1.setDirection(0);
+                    }
+                    c1.setDirection(90);
                     //System.out.println("Down hit");
                 }
             }

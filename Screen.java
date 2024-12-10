@@ -25,7 +25,7 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
     private MyHashTable<Location, GridObject> myGridTable;
     private Tourist t;
     private Animal a1;
-    private Thread boatThread, animateThread, animalThread;
+    private Thread boatThread, animateThread, animalThread,carThread;
     private boolean upPressed, downPressed, leftPressed, rightPressed, skytree, springs, mountCook, milford;
     private BufferedImage skytower, springimage, mountCookImage, milfordImage;
     private JButton save;
@@ -48,12 +48,14 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
         milford = false;
         b1 = new Boat(140, 140);
         a1 = new Animal(217,217);
-        c1 = new Car(210,210);
+        c1 = new Car(196,210);
+        carThread = new Thread(c1);
         animalThread = new Thread(a1);
         boatThread = new Thread(b1);
         boatThread.start();
         animalThread.start();
-        animation = new Animate(this, b1, a1);
+        carThread.start();
+        animation = new Animate(this, b1, a1,c1);
         animateThread = new Thread(animation);
         animateThread.start();
         save = new JButton();
@@ -119,7 +121,6 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
         }
 
         // Manual Landmark placemen
-        myGridTable.put(new Location(1,1),new GridObject("grass"));
         if (myGridTable.get(new Location(28, 14)).size() > 1) {
             myGridTable.remove(new Location(28, 14), myGridTable.get(new Location(28, 14)).get(1));
             myGridTable.put(new Location(28, 14), new GridObject("skytree"));
@@ -182,6 +183,7 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
         t.drawMe(g);
         b1.drawMe(g);
         a1.drawMe(g);
+        c1.drawMe(g);
         if (skytree) {
             g.drawImage(skytower, 700, 0, 500, 350, null);
             g.setFont(new Font("default", Font.BOLD, 30));

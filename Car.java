@@ -72,7 +72,7 @@ public class Car implements Serializable,Runnable{
                 }else if(direction==270){
                     y+=7;
                 }
-                if(Math.random()<0.4){
+                if(Math.random()<0.01){
                     randomizeDirection();
                 }
                 Thread.sleep(1000);
