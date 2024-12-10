@@ -6,17 +6,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.Thread;
-public class Boat implements Serializable,Runnable{
+public class Animal implements Serializable,Runnable{
     private int x;
     private int y;
     private transient BufferedImage img;
     private int direction;
-    public Boat(int x,int y){
+    public Animal(int x,int y){
         this.x=x;
         this.y=y;
         direction=180;
         try {
-            img = ImageIO.read(new File("images/boat.png"));
+            img = ImageIO.read(new File("images/animal.png"));
         } catch (IOException e) {
             System.out.println("IMAGEFAIL"+e.getMessage());
         }
@@ -24,7 +24,7 @@ public class Boat implements Serializable,Runnable{
     }
     public void setImage(){
         try {
-            img = ImageIO.read(new File("images/boat.png"));
+            img = ImageIO.read(new File("images/animal.png"));
         } catch (IOException e) {
             System.out.println("IMAGEFAIL"+e.getMessage());
         }
@@ -72,7 +72,7 @@ public class Boat implements Serializable,Runnable{
                 }else if(direction==270){
                     y+=7;
                 }
-                if(Math.random()<0.45){
+                if(Math.random()<0.4){
                     randomizeDirection();
                 }
                 Thread.sleep(1000);

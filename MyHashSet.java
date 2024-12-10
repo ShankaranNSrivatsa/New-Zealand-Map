@@ -1,13 +1,11 @@
-//import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Iterator;
 
-public class MyHashSet<E>{
+//import java.util.LinkedList;
+
+public class MyHashSet<E> {
 
     // Instance variables
     private Object[] hashArray;
     private int size;
-    private static final int INITIAL_CAPACITY = 10000;
     private DLList<E> dlList; // To store elements in a doubly-linked list format
 
     // Constructor
@@ -55,7 +53,8 @@ public class MyHashSet<E>{
 
         return hashArray[index] != null && hashArray[index].equals(e);
     }
-// Remove an element from the set
+
+    // Remove an element from the set
     public boolean remove(Object o) {
         E e = (E) o;
         int hash = e.hashCode();
@@ -79,7 +78,5 @@ public class MyHashSet<E>{
     public DLList<E> toDLList() {
         return dlList;
     }
-
-
 
 }
