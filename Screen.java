@@ -18,6 +18,11 @@ import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -31,6 +36,7 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
     private JButton save;
     private Boat b1;
     private Car c1;
+    private Clip clip1;
     private Animate animation;
 
     public Screen() {
@@ -53,6 +59,22 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
         this.add(save);
         save.addActionListener(this);
         try {
+            File soundFile = new File("images/gamesound.wav");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+
+            clip.open(audioIn);
+
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            File soundFile1 = new File("images/uuhhh.wav");
+            if(!soundFile1.exists()){
+                System.out.println("yeAH");
+            }
+            AudioInputStream audioIn1 = AudioSystem.getAudioInputStream(soundFile1);
+            clip1 = AudioSystem.getClip();
+            clip1.open(audioIn1);
+
+
             Scanner scan = new Scanner(new FileReader("MapExportFile.txt"));
             b1 = new Boat(140, 140);
             a1 = new Animal(217,217);
@@ -111,6 +133,15 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
                 col++;
             }
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }catch (UnsupportedAudioFileException e) {
+            System.out.println("The audio file format is unsupported.");
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            System.out.println("Audio line is unavailable.");
+            e.printStackTrace();
+        }   catch (IOException e) {
+            System.out.println("Error reading or opening the audio file.");
             e.printStackTrace();
         }
         try {
@@ -267,7 +298,14 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
             if (!upGrid.get(0).getName().equals("water")) {
                 if (upGrid.size() <= 1) {
                     t.moveUp();
+                }else{
+                    System.out.println("played");
+                    clip1.setFramePosition(0);
+                    clip1.start();
                 }
+            }else{
+                clip1.setFramePosition(0);
+                clip1.start();
             }
             // System.out.println(myGridTable.get(new
             // Location((int)t.getX()/7,((int)t.getY()/7)-1)).get(0).getName());
@@ -279,7 +317,13 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
             if (!downGrid.get(0).getName().equals("water")) {
                 if (downGrid.size() <= 1) {
                     t.moveDown();
+                }else{
+                    clip1.setFramePosition(0);
+                    clip1.start();
                 }
+            }else{
+                clip1.setFramePosition(0);
+                clip1.start();
             }
             downPressed = true;
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT && !leftPressed) {
@@ -288,7 +332,13 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
             if (!leftGrid.get(0).getName().equals("water")) {
                 if (leftGrid.size() <= 1) {
                     t.moveLeft();
+                }else{
+                    clip1.setFramePosition(0);
+                    clip1.start();
                 }
+            }else{
+                clip1.setFramePosition(0);
+                clip1.start();
             }
             leftPressed = true;
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT && !rightPressed) {
@@ -297,7 +347,13 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
             if (!rightGrid.get(0).getName().equals("water")) {
                 if (rightGrid.size() <= 1) {
                     t.moveRight();
+                }else{
+                    clip1.setFramePosition(0);
+                    clip1.start();
                 }
+            }else{
+                clip1.setFramePosition(0);
+                clip1.start();
             }
             rightPressed = true;
         }
