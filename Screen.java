@@ -46,18 +46,7 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
         springs = false;
         mountCook = false;
         milford = false;
-        b1 = new Boat(140, 140);
-        a1 = new Animal(217,217);
-        c1 = new Car(196,210);
-        carThread = new Thread(c1);
-        animalThread = new Thread(a1);
-        boatThread = new Thread(b1);
-        boatThread.start();
-        animalThread.start();
-        carThread.start();
-        animation = new Animate(this, b1, a1,c1);
-        animateThread = new Thread(animation);
-        animateThread.start();
+        
         save = new JButton();
         save.setBounds(750, 600, 150, 25);
         save.setText("Save");
@@ -65,10 +54,23 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
         save.addActionListener(this);
         try {
             Scanner scan = new Scanner(new FileReader("MapExportFile.txt"));
-
+            b1 = new Boat(140, 140);
+            a1 = new Animal(217,217);
+            c1 = new Car(196,210);
+            carThread = new Thread(c1);
+            animalThread = new Thread(a1);
+            boatThread = new Thread(b1);
+            
+            
             System.out.println();
             t = new Tourist(203, 203);
             loadTouristPosition();
+            loadAnimalPosition();
+            loadBoatPosition();
+            loadCarPosition();
+            animation = new Animate(this, b1, a1,c1);
+            animateThread = new Thread(animation);
+            animateThread.start();
             // reads one line at a time
             int col = 0;
             while (scan.hasNextLine()) {
@@ -494,6 +496,9 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == save) {
             saveTouristPosition();
+            saveAnimalPosition();
+            saveBoatPosition();
+            saveCarPosition();
         }
     }
 
@@ -506,7 +511,76 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
             System.out.println("Default Position");
         }
     }
+    public void saveCarPosition() {
+        try (ObjectOutputStream oos1 = new ObjectOutputStream(new FileOutputStream("carPosition.ser"))) {
+            oos1.writeObject(c1);
+            System.out.println("Car position saved.");
+            requestFocusInWindow();
+        } catch (IOException e) {
+            System.out.println("Default Position");
+        }
+    }
+    public void saveAnimalPosition() {
+        try (ObjectOutputStream oos2 = new ObjectOutputStream(new FileOutputStream("animalPosition.ser"))) {
+            oos2.writeObject(a1);
+            System.out.println("Animal position saved.");
+            requestFocusInWindow();
+        } catch (IOException e) {
+            System.out.println("Default Position");
+        }
+    }
+    public void saveBoatPosition() {
+        try (ObjectOutputStream oos3 = new ObjectOutputStream(new FileOutputStream("boatPosition.ser"))) {
+            oos3.writeObject(b1);
+            System.out.println("Boat position saved.");
+            requestFocusInWindow();
+        } catch (IOException e) {
+            System.out.println("Default Position");
+        }
+    }
 
+    public void loadCarPosition() {
+        try (ObjectInputStream ois1 = new ObjectInputStream(new FileInputStream("carPosition.ser"))) {
+            c1 = (Car) ois1.readObject();
+            c1.setImage();
+            carThread = new Thread(c1);
+            carThread.start();
+            System.out.println("Car position loaded.");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            carThread = new Thread(c1);
+            carThread.start();
+        }
+    }
+    public void loadBoatPosition() {
+        try (ObjectInputStream ois2 = new ObjectInputStream(new FileInputStream("boatPosition.ser"))) {
+            b1 = (Boat) ois2.readObject();
+            b1.setImage();
+            boatThread= new Thread(b1);
+            boatThread.start();
+            System.out.println("Boat position loaded.");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            boatThread= new Thread(b1);
+            boatThread.start();
+
+        }
+    }
+    public void loadAnimalPosition() {
+        try (ObjectInputStream ois3 = new ObjectInputStream(new FileInputStream("animalPosition.ser"))) {
+            a1 = (Animal) ois3.readObject();
+            a1.setImage();
+            animalThread = new Thread(a1);
+            animalThread.start();
+            System.out.println("Animal position loaded.");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            animalThread = new Thread(a1);
+            animalThread.start();
+            
+
+        }
+    }
     public void loadTouristPosition() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("touristPosition.ser"))) {
             t = (Tourist) ois.readObject();
