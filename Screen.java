@@ -36,7 +36,7 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
     private JButton save;
     private Boat b1;
     private Car c1;
-    private Clip clip1;
+    private Clip clip1,landmark1,landmark2,landmark3,landmark4;
     private Animate animation;
 
     public Screen() {
@@ -62,17 +62,34 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
             File soundFile = new File("images/gamesound.wav");
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
             Clip clip = AudioSystem.getClip();
-
+            
             clip.open(audioIn);
 
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             File soundFile1 = new File("images/uuhhh.wav");
-            if(!soundFile1.exists()){
-                System.out.println("yeAH");
-            }
             AudioInputStream audioIn1 = AudioSystem.getAudioInputStream(soundFile1);
             clip1 = AudioSystem.getClip();
             clip1.open(audioIn1);
+
+            File soundFile2= new File("images/landmark1.wav");
+            AudioInputStream audioIn2 = AudioSystem.getAudioInputStream(soundFile2);
+            landmark1 = AudioSystem.getClip();
+            landmark1.open(audioIn2);
+
+            File soundFile3= new File("images/landmark2.wav");
+            AudioInputStream audioIn3 = AudioSystem.getAudioInputStream(soundFile3);
+            landmark2 = AudioSystem.getClip();
+            landmark2.open(audioIn3);
+
+            File soundFile4= new File("images/landmark3.wav");
+            AudioInputStream audioIn4 = AudioSystem.getAudioInputStream(soundFile4);
+            landmark3 = AudioSystem.getClip();
+            landmark3.open(audioIn4);
+
+            File soundFile5= new File("images/landmark4.wav");
+            AudioInputStream audioIn5 = AudioSystem.getAudioInputStream(soundFile5);
+            landmark4 = AudioSystem.getClip();
+            landmark4.open(audioIn5);
 
 
             Scanner scan = new Scanner(new FileReader("MapExportFile.txt"));
@@ -358,38 +375,73 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
             rightPressed = true;
         }
         if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 2), "skytree")) {
+            if(!skytree){
+                landmark1.setFramePosition(0);
+                landmark1.start();
+            }
             skytree = true;
+            
             // System.out.println("A");
             // directly left of sky tower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 2), "skytree")) {
+            if(!skytree){
+                landmark1.setFramePosition(0);
+                landmark1.start();
+            }
             skytree = true;
+            
             // System.out.println("B");
             // directly right of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 1), ((int) t.getY() / 7) + 1), "skytree")) {
+            if(!skytree){
+                landmark1.setFramePosition(0);
+                landmark1.start();
+            }
             skytree = true;
+
             // System.out.println("C");
             // directly down of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 1), ((int) t.getY() / 7) + 3), "skytree")) {
+            if(!skytree){
+                landmark1.setFramePosition(0);
+                landmark1.start();
+            }
             skytree = true;
             // System.out.println("D");
             // directly up of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 3), "skytree")) {
+            if(!skytree){
+                landmark1.setFramePosition(0);
+                landmark1.start();
+            }
             skytree = true;
             // top right diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 3), "skytree")) {
+            if(!skytree){
+                landmark1.setFramePosition(0);
+                landmark1.start();
+            }
             skytree = true;
             // top left diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 1), "skytree")) {
+            if(!skytree){
+                landmark1.setFramePosition(0);
+                landmark1.start();
+            }
             skytree = true;
             // bottom left diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 1), "skytree")) {
+            if(!skytree){
+                landmark1.setFramePosition(0);
+                landmark1.start();
+            }
             skytree = true;
             // bottom right diagonal of skytower
 
@@ -399,38 +451,70 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
         }
 
         if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 2), "springs")) {
+            if(!springs){
+                landmark2.setFramePosition(0);
+                landmark2.start();
+            }
             springs = true;
             // System.out.println("A");
             // directly left of sky tower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 2), "springs")) {
+            if(!springs){
+                landmark2.setFramePosition(0);
+                landmark2.start();
+            }
             springs = true;
             // System.out.println("B");
             // directly right of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 1), ((int) t.getY() / 7) + 1), "springs")) {
+            if(!springs){
+                landmark2.setFramePosition(0);
+                landmark2.start();
+            }
             springs = true;
             // System.out.println("C");
             // directly down of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 1), ((int) t.getY() / 7) + 3), "springs")) {
+            if(!springs){
+                landmark2.setFramePosition(0);
+                landmark2.start();
+            }
             springs = true;
             // System.out.println("D");
             // directly up of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 3), "springs")) {
+            if(!springs){
+                landmark2.setFramePosition(0);
+                landmark2.start();
+            }
             springs = true;
             // top right diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 3), "springs")) {
+            if(!springs){
+                landmark2.setFramePosition(0);
+                landmark2.start();
+            }
             springs = true;
             // top left diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 1), "springs")) {
+            if(!springs){
+                landmark2.setFramePosition(0);
+                landmark2.start();
+            }
             springs = true;
             // bottom left diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 1), "springs")) {
+            if(!springs){
+                landmark2.setFramePosition(0);
+                landmark2.start();
+            }
             springs = true;
             // bottom right diagonal of skytower
 
@@ -440,38 +524,70 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
         }
 
         if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 2), "mountcook")) {
+            if(!mountCook){
+                landmark3.setFramePosition(0);
+                landmark3.start();
+            }
             mountCook = true;
             // System.out.println("A");
             // directly left of sky tower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 2), "mountcook")) {
+            if(!mountCook){
+                landmark3.setFramePosition(0);
+                landmark3.start();
+            }
             mountCook = true;
             // System.out.println("B");
             // directly right of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 1), ((int) t.getY() / 7) + 1), "mountcook")) {
+            if(!mountCook){
+                landmark3.setFramePosition(0);
+                landmark3.start();
+            }
             mountCook = true;
             // System.out.println("C");
             // directly down of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 1), ((int) t.getY() / 7) + 3), "mountcook")) {
+            if(!mountCook){
+                landmark3.setFramePosition(0);
+                landmark3.start();
+            }
             mountCook = true;
             // System.out.println("D");
             // directly up of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 3), "mountcook")) {
+            if(!mountCook){
+                landmark3.setFramePosition(0);
+                landmark3.start();
+            }
             mountCook = true;
             // top right diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 3), "mountcook")) {
+            if(!mountCook){
+                landmark3.setFramePosition(0);
+                landmark3.start();
+            }
             mountCook = true;
             // top left diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 1), "mountcook")) {
+            if(!mountCook){
+                landmark3.setFramePosition(0);
+                landmark3.start();
+            }
             mountCook = true;
             // bottom left diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 1), "mountcook")) {
+            if(!mountCook){
+                landmark3.setFramePosition(0);
+                landmark3.start();
+            }
             mountCook = true;
             // bottom right diagonal of skytower
 
@@ -481,38 +597,70 @@ public class Screen extends JPanel implements KeyListener, ActionListener {
         }
 
         if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 2), "milford")) {
+            if(!milford){
+                landmark4.setFramePosition(0);
+                landmark4.start();
+            }
             milford = true;
             // System.out.println("A");
             // directly left of sky tower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 2), "milford")) {
+            if(!milford){
+                landmark4.setFramePosition(0);
+                landmark4.start();
+            }
             milford = true;
             // System.out.println("B");
             // directly right of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 1), ((int) t.getY() / 7) + 1), "milford")) {
+            if(!milford){
+                landmark4.setFramePosition(0);
+                landmark4.start();
+            }
             milford = true;
             // System.out.println("C");
             // directly down of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 1), ((int) t.getY() / 7) + 3), "milford")) {
+            if(!milford){
+                landmark4.setFramePosition(0);
+                landmark4.start();
+            }
             milford = true;
             // System.out.println("D");
             // directly up of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 3), "milford")) {
+            if(!milford){
+                landmark4.setFramePosition(0);
+                landmark4.start();
+            }
             milford = true;
             // top right diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 3), "milford")) {
+            if(!milford){
+                landmark4.setFramePosition(0);
+                landmark4.start();
+            }
             milford = true;
             // top left diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7) + 2), ((int) t.getY() / 7) + 1), "milford")) {
+            if(!milford){
+                landmark4.setFramePosition(0);
+                landmark4.start();
+            }
             milford = true;
             // bottom left diagonal of skytower
 
         } else if (checkForObject(new Location((((int) t.getX() / 7)), ((int) t.getY() / 7) + 1), "milford")) {
+            if(!milford){
+                landmark4.setFramePosition(0);
+                landmark4.start();
+            }
             milford = true;
             // bottom right diagonal of skytower
 
